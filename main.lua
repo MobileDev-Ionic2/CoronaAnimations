@@ -34,7 +34,20 @@ local sequences_runningCat = {
 }
 
 local runningCat = display.newSprite( sheet_runningCat, sequences_runningCat )
+local ground = display.newImageRect( "ground.png", 1200, 870 )
+ground.y=900
+local function catJump()
+	runningCat:applyLinearImpulse( 0, -0.75, runningCat.x, runningCat.y )
+	--tapCount = tapCount + 1
+	--tapText.text = tapCount
+end
 
+local physics = require( "physics" )
+physics.start()
+physics.addBody( runningCat, "dynamic", { radius=50, bounce=0 } )
+physics.addBody( ground, "static" )
 
 runningCat:scale(0.5, 0.5)
 runningCat:play()
+
+runningCat:addEventListener( "tap", catJump )
